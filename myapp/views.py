@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Customer, CustomerToken, Plan, CustomerPlan
 from .serializers import CustomerSerializer, PlanSerializer, CustomerPlanSerializer
+from .utils.authentications import TokenAuthentication
 
 logger = logging.getLogger(__name__)
 
@@ -80,13 +81,15 @@ class MyAPIView(APIView):
 
 
 class CustomerListView(APIView):
+    authentication_classes = [TokenAuthentication]
+
     def get(self, request, format=None):
         logger.info("Received request for customer list")
 
-        # Get the Bearer token from the request headers
-        token = request.headers.get('Authorization', '').split('Bearer ')[-1]
-
-        # Check if the token exists in the CustomerToken table
+        # # Get the Bearer token from the request headers
+        # token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+        #
+        # # Check if the token exists in the CustomerToken table
         # try:
         #     customer_token = CustomerToken.objects.get(token=token)
         # except CustomerToken.DoesNotExist:
