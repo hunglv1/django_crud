@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://postgres:Tuankiet2403@db:5432/rest
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: rest
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Tuankiet2403
+#    ports:
+#      - "5434:5432" # Map container port 5432 to host port 5434
